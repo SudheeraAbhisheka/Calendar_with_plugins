@@ -78,6 +78,7 @@ public class TerminalGridDemo
         int firstHour = 24; // Initialization
 
         final int daysPerWeek = 7;
+        final int allDayEventRow = 1;
 
         switch(command){
             case ""     -> {
@@ -143,26 +144,62 @@ public class TerminalGridDemo
         }
 
         if(thereAreAllDayEvents){
-            String[][] messages = new String[1][7];
-            for(int i=0; i < 7; i++){
-                messages[0][i] = "";
+            int hoursPerDay = 0;
+
+            if(firstHour == 24){
+                hoursPerDay = 0;
+
+            }
+            else{
+                hoursPerDay = lastHour-firstHour+1;
+
+            }
+
+
+            String[][] messages = new String[hoursPerDay+allDayEventRow][daysPerWeek];
+            
+            for(int i=0; i < hoursPerDay+allDayEventRow; i++){
+                for(int j=0; j < daysPerWeek; j++){
+                    messages[i][j] = "";
+                }
             }
 
             for(EventObject e : allDayEvents){
                 for(int day = 0; day < daysPerWeek; day++){
                     if(firstDisplayDay.plusDays(day).equals(e.getDate())){
-                        messages[0][day] = e.getEvent();
+                        String s = String.format("%s", e.getEvent());
+                        messages[0][day] = s;
                     }
                 }
             }
 
+            int hour = 1;
+
+            for(ArrayList<EventObject> hourX : hoursArrayList){
+                for(EventObject e : hourX){
+                    for(int day = 0; day < daysPerWeek; day++){
+                        if(firstDisplayDay.plusDays(day).equals(e.getDate())){
+                            String s = String.format("%s\nDuration: %smins\nStart time: %s", e.getEvent(), e.getDuration(), e.getTime());
+                            messages[hour-firstHour][day] = s;
+                        }
+                    }
+                }
+
+                hour++;
+            }
+                        
             String[] colHeadings = new String[daysPerWeek];
-            String[] rowHeadings = new String[1];
+            String[] rowHeadings = new String[hoursPerDay+allDayEventRow];
 
             for(int i = 0; i < daysPerWeek; i++){
                 colHeadings[i] = ""+firstDisplayDay.plusDays(i)+"\n"+firstDisplayDay.plusDays(i).getDayOfWeek();
             }
+
             rowHeadings[0] = "Add-day events";
+
+            for(int i = 0; i < hoursPerDay; i++){
+                rowHeadings[i+allDayEventRow] = "Hour "+(i+firstHour);
+            }
 
             var terminalGrid = TerminalGrid.create();
             terminalGrid.setTerminalWidth(140);
@@ -190,7 +227,8 @@ public class TerminalGridDemo
                 for(EventObject e : hourX){
                     for(int day = 0; day < daysPerWeek; day++){
                         if(firstDisplayDay.plusDays(day).equals(e.getDate())){
-                            messages[hour-firstHour][day] = e.getEvent();
+                            String s = String.format("%s\nDuration: %smins\nStart time: %s", e.getEvent(), e.getDuration(), e.getTime());
+                            messages[hour-firstHour][day] = s;
                         }
                     }
                 }

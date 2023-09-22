@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +24,7 @@ public class InputFile {
             BufferedReader bufRdr       = new BufferedReader(rdr);
             ){
                 line = bufRdr.readLine();
+                bufRdr.read();
                 while(line != null){
                     processLine(line);
                     line = bufRdr.readLine();
@@ -62,8 +62,8 @@ public class InputFile {
                 }
             }
 
-
-            entry.setEvent(event);
+            String valuesInQuotes = event.substring(1, event.length() - 2);
+            entry.setEvent(valuesInQuotes);
 
             entries.add(entry);
         }
