@@ -20,55 +20,54 @@ public class TerminalGridDemo
     {
         final int hoursPerDay = 24;
 
-        InputFile textFile;
         String command = "";
 
-        textFile = new InputFile("input.txt");
+        InputFileSecond textFileSecond = new InputFileSecond("input.txt");
 
         
 
-        List<EventObject> list = textFile.getEntryList();
+         List<EventObject> list = textFileSecond.getEntryList();
 
-        for(EventObject eventObject : list){
-            if(eventObject.isItAllday()){
-                allDayEvents.add(eventObject);
-            }
-        }
+         for(EventObject eventObject : list){
+             if(eventObject.isItAllday()){
+                 allDayEvents.add(eventObject);
+             }
+         }
 
-        for(int i = 0; i < hoursPerDay; i++){
-            ArrayList<EventObject> hourX = new ArrayList<>();
+         for(int i = 0; i < hoursPerDay; i++){
+             ArrayList<EventObject> hourX = new ArrayList<>();
 
-            for(EventObject eventObject : list){
-                if(!eventObject.isItAllday()){
-                    if(eventObject.getHour() == i){
-                        hourX.add(eventObject);
+             for(EventObject eventObject : list){
+                 if(!eventObject.isItAllday()){
+                     if(eventObject.getHour() == i){
+                         hourX.add(eventObject);
 
-                        lastHourOfEachDay.put(eventObject.getDate(), eventObject.getHour());
+                         lastHourOfEachDay.put(eventObject.getDate(), eventObject.getHour());
 
-                        if(!firstHourOfEachDay.containsKey(eventObject.getDate())){
-                            firstHourOfEachDay.put(eventObject.getDate(), eventObject.getHour());
-                        }
-                    }
-                }
-            }
+                         if(!firstHourOfEachDay.containsKey(eventObject.getDate())){
+                             firstHourOfEachDay.put(eventObject.getDate(), eventObject.getHour());
+                         }
+                     }
+                 }
+             }
 
-            hoursArrayList.add(hourX);
-        }
+             hoursArrayList.add(hourX);
+         }
 
 
         
 
 
 
-        oneWeek(command);
-        try(Scanner sc = new Scanner(System.in)){
-            while(!command.equals("quit")){
-                command = sc.nextLine();
-                oneWeek(command);
-            }
-        }catch(IllegalArgumentException e){
-            System.out.println("Invalid move");
-        }
+         oneWeek(command);
+         try(Scanner sc = new Scanner(System.in)){
+             while(!command.equals("quit")){
+                 command = sc.nextLine();
+                 oneWeek(command);
+             }
+         }catch(IllegalArgumentException e){
+             System.out.println("Invalid move");
+         }
 
     }
 
