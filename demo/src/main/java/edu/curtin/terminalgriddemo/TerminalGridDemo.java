@@ -1,4 +1,6 @@
 package edu.curtin.terminalgriddemo;
+import edu.curtin.calplugins.AppPlugin;
+import edu.curtin.calplugins.RepeatObject;
 import edu.curtin.terminalgrid.TerminalGrid;
 
 import java.time.LocalDate;
@@ -23,8 +25,6 @@ public class TerminalGridDemo
         String command = "";
 
         InputFileSecond textFileSecond = new InputFileSecond("input.txt");
-
-        
 
          List<EventObject> list = textFileSecond.getEntryList();
 
@@ -54,11 +54,6 @@ public class TerminalGridDemo
              hoursArrayList.add(hourX);
          }
 
-
-        
-
-
-
          oneWeek(command);
          try(Scanner sc = new Scanner(System.in)){
              while(!command.equals("quit")){
@@ -69,8 +64,39 @@ public class TerminalGridDemo
              System.out.println("Invalid move");
          }
 
+//        new TerminalGridDemo().run(); // This should run without hardcoded line
+
+
     }
 
+    private Object info = "";
+    public String Hallelujha;
+
+    public Object getInfo(){
+        return info;
+    }
+    public void run(){
+        var plugins = new ArrayList<AppPlugin>();
+
+        String api_name = "edu.curtin.calplugins.Repeat";
+        RepeatObject repeatObject = new RepeatObject("Sunday", "2023-12-25", "5");
+        info = repeatObject;
+
+        try{
+            Class<?> pluginClass = Class.forName(api_name);
+            plugins.add((AppPlugin) pluginClass.getConstructor().newInstance());
+
+        }
+        catch(ReflectiveOperationException | ClassCastException e){
+            System.out.printf("%s: %s %n", e.getClass().getName(), e.getMessage());
+        }
+
+        ApiImpl apiImpl = new ApiImpl(this);
+
+        for(AppPlugin plugin : plugins){
+            plugin.startPlugin(apiImpl);
+        }
+    }
     private static void oneWeek(String command){
         System.out.println("\033[2J\033[H"); // Clearing the screen
         int lastHour = 0; // Initialization

@@ -10,23 +10,20 @@ public class EventObject {
     private String event;
     private boolean isItAllday;
 
-    public EventObject(LocalDate date) {
+    public EventObject(LocalDate date, String event) {
         this.date = date;
-    }
-    public void setTime(LocalTime time) {
-        this.time = time;
-    }
-
-    public void setEvent(String event) {
         this.event = event;
+
+        isItAllday = true;
     }
 
-    public void setItAllday(boolean itAllday) {
-        isItAllday = itAllday;
-    }
-
-    public void setDuration(int duration) {
+    public EventObject(LocalDate date, LocalTime time, int duration, String event) {
+        this.date = date;
+        this.time = time;
         this.duration = duration;
+        this.event = event;
+
+        isItAllday = false;
     }
 
     public LocalDate getDate(){

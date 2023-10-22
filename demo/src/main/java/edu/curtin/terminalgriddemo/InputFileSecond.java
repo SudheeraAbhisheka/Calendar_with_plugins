@@ -65,18 +65,14 @@ public class InputFileSecond {
     }
 
     private void splitLine(ArrayList<String> oneEvent){
-        EventObject entry = new EventObject(LocalDate.parse(oneEvent.get(0)));
+        EventObject entry;
 
         if(oneEvent.get(1).equals("all-day")){
-            entry.setItAllday(true);
-            entry.setEvent(oneEvent.get(2));
+            entry = new EventObject(LocalDate.parse(oneEvent.get(0)), oneEvent.get(2));
         }
         else{
-            entry.setItAllday(false);
-            entry.setTime(LocalTime.parse(oneEvent.get(1)));
-            entry.setDuration(Integer.parseInt(oneEvent.get(2)));
-            entry.setEvent(oneEvent.get(3));
-
+            entry = new EventObject(LocalDate.parse(oneEvent.get(0)), LocalTime.parse(oneEvent.get(1)),
+                    Integer.parseInt(oneEvent.get(2)), oneEvent.get(3));
         }
 
         entries.add(entry);

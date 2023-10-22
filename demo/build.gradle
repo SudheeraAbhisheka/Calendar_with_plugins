@@ -8,6 +8,8 @@ repositories {
 
 dependencies {
     implementation project(':lib')
+    implementation project(':api')
+    runtimeOnly project(':pluginA')
 }
 
 application {
