@@ -2,6 +2,7 @@ package edu.curtin.terminalgriddemo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -10,12 +11,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class InputFileSecond {
-    private List<EventObject> entries = new LinkedList<>();
+    private List<Event> entries = new LinkedList<>();
 
     InputFileSecond(String fileName){
         boolean eventStarted = false;
         boolean messageStarted = false;
         String message = "";
+        String pluginName;
         ArrayList<String> oneEvent = new ArrayList<>();
 
         try {
@@ -65,13 +67,13 @@ public class InputFileSecond {
     }
 
     private void splitLine(ArrayList<String> oneEvent){
-        EventObject entry;
+        Event entry;
 
         if(oneEvent.get(1).equals("all-day")){
-            entry = new EventObject(LocalDate.parse(oneEvent.get(0)), oneEvent.get(2));
+            entry = new Event(LocalDate.parse(oneEvent.get(0)), oneEvent.get(2));
         }
         else{
-            entry = new EventObject(LocalDate.parse(oneEvent.get(0)), LocalTime.parse(oneEvent.get(1)),
+            entry = new Event(LocalDate.parse(oneEvent.get(0)), LocalTime.parse(oneEvent.get(1)),
                     Integer.parseInt(oneEvent.get(2)), oneEvent.get(3));
         }
 
@@ -79,7 +81,7 @@ public class InputFileSecond {
 
     }
 
-    public List<EventObject> getEntryList(){
+    public List<Event> getEntryList(){
         return entries;
     }
 

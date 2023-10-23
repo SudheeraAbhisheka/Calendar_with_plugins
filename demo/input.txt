@@ -1,7 +1,2 @@
-event 2023-09-22 23:59:59 45 "Meeting 6"
+event 2023-10-22 23:59:59 45 "Meeting 6"
 event 2023-09-23 11:00:00 90 "Meeting 7"
-event 2023-09-25
-        all-day "Christmas Day"
-event 2023-12-26 03:00:00 90 "Meeting 8"
-event 2023-12-27 23:59:00 90 "Meeting 9"
-event 2023-12-28 00:00:00 90 "Meeting 7"

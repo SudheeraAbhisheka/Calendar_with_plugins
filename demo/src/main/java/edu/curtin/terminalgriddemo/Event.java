@@ -3,21 +3,21 @@ package edu.curtin.terminalgriddemo;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class EventObject {
+public class Event {
     private LocalDate date;
     private LocalTime time;
     private int duration;
     private String event;
     private boolean isItAllday;
 
-    public EventObject(LocalDate date, String event) {
+    public Event(LocalDate date, String event) {
         this.date = date;
         this.event = event;
 
         isItAllday = true;
     }
 
-    public EventObject(LocalDate date, LocalTime time, int duration, String event) {
+    public Event(LocalDate date, LocalTime time, int duration, String event) {
         this.date = date;
         this.time = time;
         this.duration = duration;
@@ -33,7 +33,7 @@ public class EventObject {
     public LocalTime getTime() {
         return time;
     }
-    
+
     public int getHour() {
         return time.getHour();
     }
