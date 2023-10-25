@@ -10,6 +10,7 @@ dependencies {
     implementation project(':lib')
     implementation project(':api')
     runtimeOnly project(':pluginA')
+    runtimeOnly project(':pluginB')
 }
 
 application {

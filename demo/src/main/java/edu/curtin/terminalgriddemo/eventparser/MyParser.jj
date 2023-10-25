@@ -1,0 +1,50 @@
+options {
+  BUILD_PARSER = true;
+  BUILD_TOKEN_MANAGER = true;
+}
+
+PARSER_BEGIN(MyParser)
+
+import java.util.*;
+
+public class MyParser {
+
+    public static void main(String[] args) {
+        MyParser parser = new MyParser(System.in);
+          try {
+                parser.Event();
+            } catch (ParseException e) {
+                System.err.println("Parsing error: " + e.getMessage());
+            }
+    }
+}
+
+PARSER_END(MyParser)
+
+TOKEN: {
+  < DATE : (["0"-"9"])+ "-" (["0"-"9"])+ "-" (["0"-"9"])+ >
+| < TIME : (["0"-"9"])+ ":" (["0"-"9"])+ ":" (["0"-"9"])+ >
+| < NUMBER: (["0"-"9"])+ >
+| < STRING_LITERAL: "\"" (~["\""])* "\"" >
+| < SPACE: " " >
+| < NEWLINE : "\n" >
+}
+
+HashMap<String, String> Event() :
+{
+   String date = null;
+   String time = null;
+   Map<String, String> dateAndTimeMap = new HashMap<String, String>();
+}
+{
+    "event" <SPACE> <DATE>{ date = token.image; } <SPACE> <TIME>{ time = token.image; } <SPACE> <NUMBER> <SPACE> <STRING_LITERAL>
+
+    {
+        dateAndTimeMap.put("date", date);
+        dateAndTimeMap.put("time", time);
+    }
+
+    {
+        return dateAndTimeMap;
+    }
+}

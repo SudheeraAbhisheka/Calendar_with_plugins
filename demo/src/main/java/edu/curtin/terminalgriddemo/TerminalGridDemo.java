@@ -1,13 +1,18 @@
 package edu.curtin.terminalgriddemo;
 import edu.curtin.calplugins.AppPlugin;
 import edu.curtin.terminalgrid.TerminalGrid;
+import edu.curtin.terminalgriddemo.eventparser.MyParser;
+import edu.curtin.terminalgriddemo.eventparser.ParseException;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
 /**
- * This illustrates different ways to use TerminalGrid. You may not feel you _need_ all the 
+ * This illustrates different ways to use TerminalGrid. You may not feel you _need_ all the
  * different features shown here.
  */
 public class TerminalGridDemo
@@ -15,6 +20,7 @@ public class TerminalGridDemo
     private static LocalDate firstDisplayDay = LocalDate.now();
     private static List<Event> list = new Stack<>();
     private static List<PluginObject> listPlugins = new ArrayList<>();
+    private static ArrayList<Map<String, Object>> notificationItems = new ArrayList<>();
 //    private static List<Event> list = Collections.synchronizedList(new ArrayList<>());
     private static final ArrayList<ArrayList<Event>> hoursArrayList = new ArrayList<>();
     private static final Object mutex = new Object();
@@ -27,6 +33,7 @@ public class TerminalGridDemo
     {
         final int hoursPerDay = 24;
         Map<String, Object> pluginsHashMap = new HashMap<>();
+        String input;
 
         String command = "";
 
@@ -38,7 +45,6 @@ public class TerminalGridDemo
         pluginsHashMap.put("startDate", LocalDate.parse("2023-10-25"));
         pluginsHashMap.put("repeat", 7);
 
-//        listPlugins.add(new PluginObject("edu.curtin.calplugins.Notify", "Holiday"));
         listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
 
         pluginsHashMap = new HashMap<>();
@@ -49,64 +55,90 @@ public class TerminalGridDemo
         listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
 
 
-
-//        ExecutorService executor = Executors.newSingleThreadExecutor();
-//        executor.execute(() -> {
-//            new TerminalGridDemo().run();
-//        });
-
-//        CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
-//            new TerminalGridDemo().run();
-//        });
-
-        new TerminalGridDemo().run();
-
+        /*********/
 
 
         for(Event event : list){
-             if(event.isItAllday()){
-                 allDayEvents.add(event);
-             }
-         }
+            pluginsHashMap = new HashMap<>();
+            pluginsHashMap.put("event", event.getEvent());
+            pluginsHashMap.put("startDate", event.getDate());
+            pluginsHashMap.put("startTime", event.getTime());
 
-        //         executor.shutdown();
+            notificationItems.add(pluginsHashMap);
 
-         for(int i = 0; i < hoursPerDay; i++){
-             ArrayList<Event> hourX = new ArrayList<>();
+        }
 
-             synchronized (mutex){
-
-             }
-
-             for(Event event : list){
-                 if(!event.isItAllday()){
-                     if(event.getHour() == i){
-                         hourX.add(event);
-
-                         lastHourOfEachDay.put(event.getDate(), event.getHour());
-
-                         if(!firstHourOfEachDay.containsKey(event.getDate())){
-                             firstHourOfEachDay.put(event.getDate(), event.getHour());
-                         }
-                     }
-                 }
-             }
+        listPlugins.add(new PluginObject("edu.curtin.calplugins.Notify", "Holiday"));
 
 
+        /*********/
 
-             hoursArrayList.add(hourX);
-         }
 
-         oneWeek(command);
-         try(Scanner sc = new Scanner(System.in)){
-             while(!command.equals("quit")){
-                 command = sc.nextLine();
-                 oneWeek(command);
-             }
-         }catch(IllegalArgumentException e){
-             System.out.println("Invalid move");
-         }
+        try {
+            input = Files.readString(Path.of("second.txt"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
+        MyParser parser = new MyParser(new StringReader(input));
+        Map<String, String> parserHashMap;
+
+        try {
+            parserHashMap = parser.Event();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.printf("%s %n", parserHashMap);
+
+
+//        new TerminalGridDemo().run();
+
+
+
+//        for(Event event : list){
+//             if(event.isItAllday()){
+//                 allDayEvents.add(event);
+//             }
+//         }
+//
+//        //         executor.shutdown();
+//
+//         for(int i = 0; i < hoursPerDay; i++){
+//             ArrayList<Event> hourX = new ArrayList<>();
+//
+//             synchronized (mutex){
+//
+//             }
+//
+//             for(Event event : list){
+//                 if(!event.isItAllday()){
+//                     if(event.getHour() == i){
+//                         hourX.add(event);
+//
+//                         lastHourOfEachDay.put(event.getDate(), event.getHour());
+//
+//                         if(!firstHourOfEachDay.containsKey(event.getDate())){
+//                             firstHourOfEachDay.put(event.getDate(), event.getHour());
+//                         }
+//                     }
+//                 }
+//             }
+//
+//
+//
+//             hoursArrayList.add(hourX);
+//         }
+//
+//         oneWeek(command);
+//         try(Scanner sc = new Scanner(System.in)){
+//             while(!command.equals("quit")){
+//                 command = sc.nextLine();
+//                 oneWeek(command);
+//             }
+//         }catch(IllegalArgumentException e){
+//             System.out.println("Invalid move");
+//         }
     }
 
     private Object info = "";
@@ -119,21 +151,14 @@ public class TerminalGridDemo
 
     }
 
+    public List<Event> getEventList(){
+        return list;
+    }
+
     public Object getInfo(){
         return info;
     }
     public void run(){
-        var plugins = new ArrayList<AppPlugin>();
-        Map<String, Object> pluginsHashMap = new HashMap<>();
-        ArrayList<Map<String, Object>> notificationItems = new ArrayList<>();
-        String notificationText;
-        String api_name;
-
-//        api_name = "edu.curtin.calplugins.Repeat";
-//        pluginsHashMap.put("title", "Sunday");
-//        pluginsHashMap.put("startDate", LocalDate.parse("2023-10-25"));
-//        pluginsHashMap.put("repeat", 7);
-
         for(PluginObject pluginObject : listPlugins){
             try{
                 Class<?> pluginClass = Class.forName(pluginObject.getPluginName());
@@ -142,7 +167,6 @@ public class TerminalGridDemo
                 info = pluginObject.getObject();
 
                 ApiImpl apiImpl = new ApiImpl(this);
-
                 appPlugin.startPlugin(apiImpl);
             }
             catch(ReflectiveOperationException | ClassCastException e){
@@ -150,27 +174,6 @@ public class TerminalGridDemo
             }
 
         }
-
-
-        api_name = "edu.curtin.calplugins.Notify";
-        notificationText = "Holiday";
-        for(Event event : list){
-            if(event.getEvent().toLowerCase().contains(notificationText.toLowerCase())){
-
-                pluginsHashMap.put("title", "Holiday");
-                pluginsHashMap.put("startDate", LocalDate.parse("2023-10-25"));
-                pluginsHashMap.put("startTime", LocalTime.parse("23:59:00"));
-
-                notificationItems.add(pluginsHashMap);
-            }
-        }
-
-        info = notificationItems;
-
-
-
-//        info = pluginsHashMap;
-
 
     }
     private static void oneWeek(String command){
@@ -215,7 +218,7 @@ public class TerminalGridDemo
             default     -> {
                 // do nothing
             }
-            
+
         }
 
         for(int i = 0; i < daysPerWeek; i++){
@@ -258,7 +261,7 @@ public class TerminalGridDemo
 
 
             String[][] messages = new String[hoursPerDay+allDayEventRow][daysPerWeek];
-            
+
             for(int i=0; i < hoursPerDay+allDayEventRow; i++){
                 for(int j=0; j < daysPerWeek; j++){
                     messages[i][j] = "";
@@ -288,7 +291,7 @@ public class TerminalGridDemo
 
                 hour++;
             }
-                        
+
             String[] colHeadings = new String[daysPerWeek];
             String[] rowHeadings = new String[hoursPerDay+allDayEventRow];
 
@@ -315,7 +318,7 @@ public class TerminalGridDemo
             final int hoursPerDay = lastHour-firstHour+1;
 
             String[][] messages = new String[hoursPerDay][daysPerWeek];
-            
+
             for(int i=0; i < hoursPerDay; i++){
                 for(int j=0; j < daysPerWeek; j++){
                     messages[i][j] = "";
@@ -336,7 +339,7 @@ public class TerminalGridDemo
 
                 hour++;
             }
-                        
+
             String[] colHeadings = new String[daysPerWeek];
             String[] rowHeadings = new String[hoursPerDay];
 
@@ -352,5 +355,9 @@ public class TerminalGridDemo
             terminalGrid.print(messages, rowHeadings, colHeadings);
             System.out.println();
         }
+    }
+
+    public ArrayList<Map<String, Object>> getNotificationItems(){
+        return notificationItems;
     }
 }

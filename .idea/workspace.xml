@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cb705cee-0e39-4887-9ab4-8dbe6baf916b" name="Changes" comment="Plugins only with getInfo().">
-      <change afterPath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/PluginObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginB/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pluginB/src/main/java/edu/curtin/calplugins/Notify.java" afterDir="false" />
+    <list default="true" id="c79cd409-724b-4694-9c29-f43346ddc8a3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/demo/second.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/eventparser/MyParser.jj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/8.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.2.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -20,43 +19,34 @@
       <change beforePath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/build/classes/java/main/edu/curtin/calplugins/AppPluginAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/api/build/classes/java/main/edu/curtin/calplugins/AppPluginAPI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/build/classes/java/main/edu/curtin/calplugins/RepeatObject.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/api/build/libs/api.jar" beforeDir="false" afterPath="$PROJECT_DIR$/api/build/libs/api.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/build/tmp/compileJava/compileTransaction/stash-dir/RepeatObject.class.uniqueId0" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/api/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/api/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/src/main/java/edu/curtin/calplugins/AppPluginAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/edu/curtin/calplugins/AppPluginAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/edu/curtin/calplugins/RepeatObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/bin/main/edu/curtin/terminalgriddemo/EventObject.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/bin/main/edu/curtin/terminalgriddemo/InputFile.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/bin/main/edu/curtin/terminalgriddemo/InputFileSecond.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/bin/main/edu/curtin/terminalgriddemo/InputFileSecond.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/bin/main/edu/curtin/terminalgriddemo/TerminalGridDemo.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/bin/main/edu/curtin/terminalgriddemo/TerminalGridDemo.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/demo/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/build/classes/java/main/edu/curtin/terminalgriddemo/ApiImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/build/classes/java/main/edu/curtin/terminalgriddemo/ApiImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/build/classes/java/main/edu/curtin/terminalgriddemo/EventObject.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/build/classes/java/main/edu/curtin/terminalgriddemo/InputFileSecond.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/build/classes/java/main/edu/curtin/terminalgriddemo/InputFileSecond.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/build/classes/java/main/edu/curtin/terminalgriddemo/TerminalGridDemo.class" beforeDir="false" afterPath="$PROJECT_DIR$/demo/build/classes/java/main/edu/curtin/terminalgriddemo/TerminalGridDemo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/ApiImpl.class.uniqueId0" beforeDir="false" afterPath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/ApiImpl.class.uniqueId0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/EventObject.class.uniqueId2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/InputFileSecond.class.uniqueId3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/TerminalGridDemo.class.uniqueId1" beforeDir="false" afterPath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/TerminalGridDemo.class.uniqueId1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/ApiImpl.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/build/tmp/compileJava/compileTransaction/stash-dir/TerminalGridDemo.class.uniqueId1" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/demo/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/demo/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/ApiImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/ApiImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/EventObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/InputFileSecond.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/InputFileSecond.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/TerminalGridDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/demo/src/main/java/edu/curtin/terminalgriddemo/TerminalGridDemo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/build/libs/lib.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/build/libs/lib.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginA/build/classes/java/main/edu/curtin/calplugins/Repeat.class" beforeDir="false" afterPath="$PROJECT_DIR$/pluginA/build/classes/java/main/edu/curtin/calplugins/Repeat.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginA/build/libs/pluginA.jar" beforeDir="false" afterPath="$PROJECT_DIR$/pluginA/build/libs/pluginA.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginA/build/tmp/compileJava/compileTransaction/stash-dir/Repeat.class.uniqueId0" beforeDir="false" afterPath="$PROJECT_DIR$/pluginA/build/tmp/compileJava/compileTransaction/stash-dir/Repeat.class.uniqueId0" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginA/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/pluginA/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pluginA/src/main/java/edu/curtin/calplugins/Repeat.java" beforeDir="false" afterPath="$PROJECT_DIR$/pluginA/src/main/java/edu/curtin/calplugins/Repeat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginA/build/classes/java/main/edu/curtin/calplugins/Repeat.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginA/build/libs/pluginA.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginA/build/tmp/compileJava/compileTransaction/stash-dir/Repeat.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginA/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginA/build/tmp/jar/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pluginB/src/main/java/edu/curtin/calplugins/Notify.java" beforeDir="false" afterPath="$PROJECT_DIR$/pluginB/src/main/java/edu/curtin/calplugins/Notify.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,106 +58,40 @@
       <ProjectState />
     </projectState>
   </component>
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <projects_view>
-          <tree_state>
-            <expand />
-            <select />
-          </tree_state>
-        </projects_view>
-      </state>
-    </system>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2VWBJjwpyKFprsh5aQJqJyumf2d" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectId" id="2XDgQqCApNBxneb4D5Gji4QnbK5" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/Users/abhis/Desktop/AppWithPluginsGradle",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Users\abhis\Documents\Y3S2\SEC\Assignment 2\2023_assignment2_terminalgrid\pluginB" />
-      <recent name="D:\Users\abhis\Documents\Y3S2\SEC\Assignment 2\2023_assignment2_terminalgrid" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Users\abhis\Documents\Y3S2\SEC\Assignment 2\2023_assignment2_terminalgrid\pluginA\src\main\java\edu\curtin\calplugins" />
+      <recent name="D:\Users\abhis\Documents\Y3S2\SEC\Assignment 2\2023_assignment2_terminalgrid\demo" />
     </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="edu.curtin.calplugins" />
-      <recent name="edu.curtin.terminalgriddemo" />
-    </key>
-  </component>
-  <component name="RunManager">
-    <configuration name="Calendar" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="edu.curtin.terminalgriddemo.TerminalGridDemo" />
-      <module name="terminalgrid.demo.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="cb705cee-0e39-4887-9ab4-8dbe6baf916b" name="Changes" comment="" />
-      <created>1694941886066</created>
+      <changelist id="c79cd409-724b-4694-9c29-f43346ddc8a3" name="Changes" comment="" />
+      <created>1698169051029</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1694941886066</updated>
+      <updated>1698169051029</updated>
     </task>
-    <task id="LOCAL-00001" summary="Reading the file with Scanner">
-      <created>1697690634844</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1697690634844</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Plugins only with getInfo()">
-      <created>1697960809377</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1697960809377</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Plugins only with getInfo().">
-      <created>1697960831895</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1697960831895</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Reading the file with Scanner" />
-    <MESSAGE value="Plugins only with getInfo()" />
-    <MESSAGE value="Plugins only with getInfo()." />
-    <option name="LAST_COMMIT_MESSAGE" value="Plugins only with getInfo()." />
   </component>
 </project>
