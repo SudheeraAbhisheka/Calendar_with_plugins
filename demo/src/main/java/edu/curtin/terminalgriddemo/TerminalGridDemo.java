@@ -84,12 +84,12 @@ public class TerminalGridDemo
         Map<String, String> parserHashMap;
 
         try {
-            parserHashMap = parser.Event();
+            parser.EventList();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
-        System.out.printf("%s %n", parserHashMap);
+//        System.out.printf("%s %n", parserHashMap);
 
 
 //        new TerminalGridDemo().run();

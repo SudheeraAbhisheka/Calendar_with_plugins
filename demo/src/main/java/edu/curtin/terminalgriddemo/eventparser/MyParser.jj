@@ -1,18 +1,24 @@
 options {
   BUILD_PARSER = true;
   BUILD_TOKEN_MANAGER = true;
+  STATIC = false;
 }
 
 PARSER_BEGIN(MyParser)
 
+package edu.curtin.terminalgriddemo.eventparser;
+
+
 import java.util.*;
 
 public class MyParser {
+    private static Map<String, String> eventMap = new HashMap<String, String>();
+
 
     public static void main(String[] args) {
         MyParser parser = new MyParser(System.in);
           try {
-                parser.Event();
+                parser.EventList();
             } catch (ParseException e) {
                 System.err.println("Parsing error: " + e.getMessage());
             }
@@ -26,25 +32,58 @@ TOKEN: {
 | < TIME : (["0"-"9"])+ ":" (["0"-"9"])+ ":" (["0"-"9"])+ >
 | < NUMBER: (["0"-"9"])+ >
 | < STRING_LITERAL: "\"" (~["\""])* "\"" >
-| < SPACE: " " >
-| < NEWLINE : "\n" >
+| < PLUGIN_NAME : <PLUGIN> (["a"-"z", "A"-"Z", "0"-"9", "."])+ >
+| < PLUGIN : "plugin" >
+| < NEWLINES : ("\r\n" | "\n")* >
+| < WHITE_SPACE : (" ")*>
 }
 
-HashMap<String, String> Event() :
+public void EventList() : // Map<String, Map<String, String>>
+{
+ ArrayList<Map<String, String>> events = new ArrayList<Map<String, String>>();
+ Map<String, String> e;
+}
+{
+ (Event()  | Plugin() | Script() | <WHITE_SPACE> | <NEWLINES>)*
+
+}
+
+private Map<String, String> Event() :
 {
    String date = null;
    String time = null;
-   Map<String, String> dateAndTimeMap = new HashMap<String, String>();
+   String duration = null;
+   String title = null;
 }
 {
-    "event" <SPACE> <DATE>{ date = token.image; } <SPACE> <TIME>{ time = token.image; } <SPACE> <NUMBER> <SPACE> <STRING_LITERAL>
+    "event" <WHITE_SPACE> <DATE>{ date = token.image; } <WHITE_SPACE> <TIME>{ time = token.image; } <WHITE_SPACE> <NUMBER>{ duration = token.image; } <WHITE_SPACE> <STRING_LITERAL>{ title = token.image; }
 
-    {
-        dateAndTimeMap.put("date", date);
-        dateAndTimeMap.put("time", time);
+        {
+        eventMap.put("date", date);
+        eventMap.put("time", time);
+        eventMap.put("duration", duration);
+        eventMap.put("title", title);
+
+        System.out.printf("%s %s %n", date, duration);
+
+        return eventMap;
     }
 
-    {
-        return dateAndTimeMap;
-    }
+
+}
+
+private void Plugin() :
+{
+ String name = null;
+}
+{
+    "plugin" <WHITE_SPACE> <PLUGIN_NAME>{name = token.image;}
+
+}
+
+void Script() :
+{}
+{
+    "Script" <WHITE_SPACE> <PLUGIN_NAME>
+
 }
