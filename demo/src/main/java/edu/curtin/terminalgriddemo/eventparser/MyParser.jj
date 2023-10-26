@@ -12,10 +12,8 @@ package edu.curtin.terminalgriddemo.eventparser;
 import java.util.*;
 
 public class MyParser {
-    private static Map<String, String> eventMap = new HashMap<String, String>();
-
-
     public static void main(String[] args) {
+
         MyParser parser = new MyParser(System.in);
           try {
                 parser.EventList();
@@ -29,61 +27,104 @@ PARSER_END(MyParser)
 
 TOKEN: {
   < DATE : (["0"-"9"])+ "-" (["0"-"9"])+ "-" (["0"-"9"])+ >
+| < EVENT : "event">
+| < PLUGIN : "plugin">
+| < SCRIPT : "script">
 | < TIME : (["0"-"9"])+ ":" (["0"-"9"])+ ":" (["0"-"9"])+ >
 | < NUMBER: (["0"-"9"])+ >
 | < STRING_LITERAL: "\"" (~["\""])* "\"" >
-| < PLUGIN_NAME : <PLUGIN> (["a"-"z", "A"-"Z", "0"-"9", "."])+ >
-| < PLUGIN : "plugin" >
-| < NEWLINES : ("\r\n" | "\n")* >
-| < WHITE_SPACE : (" ")*>
+| < TEXT : (["a"-"z", "A"-"Z", "0"-"9", "." ])+ >
+| < LBRACE: "{" >
+| < RBRACE: "}" >
+| < COLON: ":" >
+| < COMMA: "," >
+| < SPACES : ("\r\n" | "\n" | " ")*>
 }
 
-public void EventList() : // Map<String, Map<String, String>>
+public Map<String, Object> EventList() :
 {
+ Map<String, Object> outputMap = new HashMap<String, Object>();
+
+ Map<String, String> event = new HashMap<String, String>();
  ArrayList<Map<String, String>> events = new ArrayList<Map<String, String>>();
- Map<String, String> e;
+
+  Map<String, ArrayList<Map<String, String>>> plugin = new HashMap<String, ArrayList<Map<String, String>>>();
+ ArrayList<Map<String, ArrayList<Map<String, String>>>> plugins = new ArrayList<Map<String, ArrayList<Map<String, String>>>>();
+
+
 }
 {
- (Event()  | Plugin() | Script() | <WHITE_SPACE> | <NEWLINES>)*
+ (event = Event() {events.add(event);}| plugin = Plugin() {plugins.add(plugin);} | Script() | <SPACES>)*
+
+{
+    outputMap.put("events", events);
+    outputMap.put("plugins", plugins);
+
+    return outputMap;
+}
 
 }
 
 private Map<String, String> Event() :
 {
+    Map<String, String> eventMap = new HashMap<String, String>();
    String date = null;
    String time = null;
    String duration = null;
    String title = null;
 }
 {
-    "event" <WHITE_SPACE> <DATE>{ date = token.image; } <WHITE_SPACE> <TIME>{ time = token.image; } <WHITE_SPACE> <NUMBER>{ duration = token.image; } <WHITE_SPACE> <STRING_LITERAL>{ title = token.image; }
+    "event" <SPACES> <DATE>{ date = token.image; } <SPACES> <TIME>{ time = token.image; } <SPACES> <NUMBER>{ duration = token.image; } <SPACES> <STRING_LITERAL>{ title = token.image; }
 
         {
-        eventMap.put("date", date);
-        eventMap.put("time", time);
-        eventMap.put("duration", duration);
-        eventMap.put("title", title);
 
-        System.out.printf("%s %s %n", date, duration);
+            eventMap.put("date", date);
+            eventMap.put("time", time);
+            eventMap.put("duration", duration);
+            eventMap.put("title", title);
 
-        return eventMap;
+            return eventMap;
     }
 
 
 }
 
-private void Plugin() :
+private Map<String, ArrayList<Map<String, String>>> Plugin() :
 {
- String name = null;
+  String pluginName = null;
+  Map<String, ArrayList<Map<String, String>>> plugin = new HashMap<String, ArrayList<Map<String, String>>>();
+  ArrayList<Map<String, String>> properties = new ArrayList<Map<String, String>>();
+  Map<String, String> property = new HashMap<String, String>();
 }
 {
-    "plugin" <WHITE_SPACE> <PLUGIN_NAME>{name = token.image;}
+    "plugin" <SPACES> <TEXT> {pluginName = token.image;} <SPACES> <LBRACE> <SPACES> (property = Property() { properties.add(property); })* <RBRACE> //
 
+  {
+    plugin.put(pluginName, properties);
+
+    return plugin;
+  }
+}
+
+private Map<String, String> Property() :
+{
+  String key = null;
+  String value = null;
+}
+{
+ <TEXT>{ key = token.image; }  <COLON> <SPACES ><STRING_LITERAL>{ value = token.image; }( <COMMA> )?(<SPACES>)?
+
+  {
+    Map<String, String> property = new HashMap<String, String>();
+    property.put(key, value);
+
+    return property;
+  }
 }
 
 void Script() :
 {}
 {
-    "Script" <WHITE_SPACE> <PLUGIN_NAME>
+    "script" <SPACES> <TEXT>
 
 }

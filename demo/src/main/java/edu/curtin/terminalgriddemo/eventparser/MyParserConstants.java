@@ -13,19 +13,29 @@ public interface MyParserConstants {
   /** RegularExpression Id. */
   int DATE = 1;
   /** RegularExpression Id. */
-  int TIME = 2;
+  int EVENT = 2;
   /** RegularExpression Id. */
-  int NUMBER = 3;
+  int PLUGIN = 3;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 4;
+  int SCRIPT = 4;
   /** RegularExpression Id. */
-  int PLUGIN_NAME = 5;
+  int TIME = 5;
   /** RegularExpression Id. */
-  int PLUGIN = 6;
+  int NUMBER = 6;
   /** RegularExpression Id. */
-  int NEWLINES = 7;
+  int STRING_LITERAL = 7;
   /** RegularExpression Id. */
-  int WHITE_SPACE = 8;
+  int TEXT = 8;
+  /** RegularExpression Id. */
+  int LBRACE = 9;
+  /** RegularExpression Id. */
+  int RBRACE = 10;
+  /** RegularExpression Id. */
+  int COLON = 11;
+  /** RegularExpression Id. */
+  int COMMA = 12;
+  /** RegularExpression Id. */
+  int SPACES = 13;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -34,15 +44,18 @@ public interface MyParserConstants {
   String[] tokenImage = {
     "<EOF>",
     "<DATE>",
+    "\"event\"",
+    "\"plugin\"",
+    "\"script\"",
     "<TIME>",
     "<NUMBER>",
     "<STRING_LITERAL>",
-    "<PLUGIN_NAME>",
-    "\"plugin\"",
-    "<NEWLINES>",
-    "<WHITE_SPACE>",
-    "\"event\"",
-    "\"Script\"",
+    "<TEXT>",
+    "\"{\"",
+    "\"}\"",
+    "\":\"",
+    "\",\"",
+    "<SPACES>",
   };
 
 }
