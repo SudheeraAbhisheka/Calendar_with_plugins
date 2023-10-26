@@ -28,6 +28,7 @@ PARSER_END(MyParser)
 TOKEN: {
   < DATE : (["0"-"9"])+ "-" (["0"-"9"])+ "-" (["0"-"9"])+ >
 | < EVENT : "event">
+| < ALL_DAY : "all-day">
 | < PLUGIN : "plugin">
 | < SCRIPT : "script">
 | < TIME : (["0"-"9"])+ ":" (["0"-"9"])+ ":" (["0"-"9"])+ >
@@ -74,18 +75,23 @@ private Map<String, String> Event() :
    String title = null;
 }
 {
-    "event" <SPACES> <DATE>{ date = token.image; } <SPACES> <TIME>{ time = token.image; } <SPACES> <NUMBER>{ duration = token.image; } <SPACES> <STRING_LITERAL>{ title = token.image; }
 
-        {
+    "event" <SPACES> <DATE>{ date = token.image; } <SPACES> (<TIME> { time = token.image; } <SPACES> <NUMBER>{ duration = token.image; } <SPACES> <STRING_LITERAL>{ title = token.image; }
+             {
+                 eventMap.put("date", date);
+                 eventMap.put("time", time);
+                 eventMap.put("duration", duration);
+                 eventMap.put("title", title);
 
+                 return eventMap;
+         }|
+
+    <ALL_DAY> <SPACES> <STRING_LITERAL>{ title = token.image; } {
             eventMap.put("date", date);
-            eventMap.put("time", time);
-            eventMap.put("duration", duration);
-            eventMap.put("title", title);
+                 eventMap.put("title", title);
 
-            return eventMap;
-    }
-
+                 return eventMap;
+})
 
 }
 
@@ -97,7 +103,7 @@ private Map<String, ArrayList<Map<String, String>>> Plugin() :
   Map<String, String> property = new HashMap<String, String>();
 }
 {
-    "plugin" <SPACES> <TEXT> {pluginName = token.image;} <SPACES> <LBRACE> <SPACES> (property = Property() { properties.add(property); })* <RBRACE> //
+    "plugin" <SPACES> <TEXT> {pluginName = token.image;} <SPACES> <LBRACE> <SPACES> (property = Property() { properties.add(property); })* <RBRACE>
 
   {
     plugin.put(pluginName, properties);
@@ -125,6 +131,6 @@ private Map<String, String> Property() :
 void Script() :
 {}
 {
-    "script" <SPACES> <TEXT>
+    "script" <SPACES> <STRING_LITERAL>
 
 }

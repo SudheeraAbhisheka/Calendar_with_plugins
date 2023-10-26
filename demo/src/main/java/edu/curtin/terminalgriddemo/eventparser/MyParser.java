@@ -15,7 +15,9 @@ public class MyParser implements MyParserConstants {
             }
     }
 
-  final public void EventList() throws ParseException {
+  final public Map<String, Object> EventList() throws ParseException {
+ Map<String, Object> outputMap = new HashMap<String, Object>();
+
  Map<String, String> event = new HashMap<String, String>();
  ArrayList<Map<String, String>> events = new ArrayList<Map<String, String>>();
 
@@ -55,7 +57,11 @@ public class MyParser implements MyParserConstants {
         throw new ParseException();
       }
     }
-    System.out.printf("%s %n", plugins);
+    outputMap.put("events", events);
+    outputMap.put("plugins", plugins);
+
+    {if (true) return outputMap;}
+    throw new Error("Missing return statement in function");
   }
 
   final private Map<String, String> Event() throws ParseException {
@@ -69,20 +75,38 @@ public class MyParser implements MyParserConstants {
     jj_consume_token(DATE);
                              date = token.image;
     jj_consume_token(SPACES);
-    jj_consume_token(TIME);
-                                                                    time = token.image;
-    jj_consume_token(SPACES);
-    jj_consume_token(NUMBER);
-                                                                                                             duration = token.image;
-    jj_consume_token(SPACES);
-    jj_consume_token(STRING_LITERAL);
-                                                                                                                                                                  title = token.image;
-            eventMap.put("date", date);
-            eventMap.put("time", time);
-            eventMap.put("duration", duration);
-            eventMap.put("title", title);
+    switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+    case TIME:
+      jj_consume_token(TIME);
+                                                                      time = token.image;
+      jj_consume_token(SPACES);
+      jj_consume_token(NUMBER);
+                                                                                                               duration = token.image;
+      jj_consume_token(SPACES);
+      jj_consume_token(STRING_LITERAL);
+                                                                                                                                                                    title = token.image;
+                 eventMap.put("date", date);
+                 eventMap.put("time", time);
+                 eventMap.put("duration", duration);
+                 eventMap.put("title", title);
 
-            {if (true) return eventMap;}
+                 {if (true) return eventMap;}
+      break;
+    case ALL_DAY:
+      jj_consume_token(ALL_DAY);
+      jj_consume_token(SPACES);
+      jj_consume_token(STRING_LITERAL);
+                                         title = token.image;
+            eventMap.put("date", date);
+                 eventMap.put("title", title);
+
+                 {if (true) return eventMap;}
+      break;
+    default:
+      jj_la1[2] = jj_gen;
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     throw new Error("Missing return statement in function");
   }
 
@@ -105,7 +129,7 @@ public class MyParser implements MyParserConstants {
         ;
         break;
       default:
-        jj_la1[2] = jj_gen;
+        jj_la1[3] = jj_gen;
         break label_2;
       }
       property = Property();
@@ -132,7 +156,7 @@ public class MyParser implements MyParserConstants {
       jj_consume_token(COMMA);
       break;
     default:
-      jj_la1[3] = jj_gen;
+      jj_la1[4] = jj_gen;
       ;
     }
     switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
@@ -140,7 +164,7 @@ public class MyParser implements MyParserConstants {
       jj_consume_token(SPACES);
       break;
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[5] = jj_gen;
       ;
     }
     Map<String, String> property = new HashMap<String, String>();
@@ -153,7 +177,7 @@ public class MyParser implements MyParserConstants {
   final public void Script() throws ParseException {
     jj_consume_token(SCRIPT);
     jj_consume_token(SPACES);
-    jj_consume_token(TEXT);
+    jj_consume_token(STRING_LITERAL);
   }
 
   /** Generated Token Manager. */
@@ -165,13 +189,13 @@ public class MyParser implements MyParserConstants {
   public Token jj_nt;
   private int jj_ntk;
   private int jj_gen;
-  final private int[] jj_la1 = new int[5];
+  final private int[] jj_la1 = new int[6];
   static private int[] jj_la1_0;
   static {
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x201c,0x201c,0x100,0x1000,0x2000,};
+      jj_la1_0 = new int[] {0x4034,0x4034,0x48,0x200,0x2000,0x4000,};
    }
 
   /** Constructor with InputStream. */
@@ -185,7 +209,7 @@ public class MyParser implements MyParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -199,7 +223,7 @@ public class MyParser implements MyParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -209,7 +233,7 @@ public class MyParser implements MyParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -219,7 +243,7 @@ public class MyParser implements MyParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -228,7 +252,7 @@ public class MyParser implements MyParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -237,7 +261,7 @@ public class MyParser implements MyParserConstants {
     token = new Token();
     jj_ntk = -1;
     jj_gen = 0;
-    for (int i = 0; i < 5; i++) jj_la1[i] = -1;
+    for (int i = 0; i < 6; i++) jj_la1[i] = -1;
   }
 
   private Token jj_consume_token(int kind) throws ParseException {
@@ -288,12 +312,12 @@ public class MyParser implements MyParserConstants {
   /** Generate ParseException. */
   public ParseException generateParseException() {
     jj_expentries.clear();
-    boolean[] la1tokens = new boolean[14];
+    boolean[] la1tokens = new boolean[15];
     if (jj_kind >= 0) {
       la1tokens[jj_kind] = true;
       jj_kind = -1;
     }
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 6; i++) {
       if (jj_la1[i] == jj_gen) {
         for (int j = 0; j < 32; j++) {
           if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -302,7 +326,7 @@ public class MyParser implements MyParserConstants {
         }
       }
     }
-    for (int i = 0; i < 14; i++) {
+    for (int i = 0; i < 15; i++) {
       if (la1tokens[i]) {
         jj_expentry = new int[1];
         jj_expentry[0] = i;

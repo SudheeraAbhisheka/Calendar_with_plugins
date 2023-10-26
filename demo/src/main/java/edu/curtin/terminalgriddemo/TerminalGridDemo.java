@@ -19,7 +19,7 @@ public class TerminalGridDemo
 {
     private static LocalDate firstDisplayDay = LocalDate.now();
     private static List<Event> list = new Stack<>();
-    private static List<PluginObject> listPlugins = new ArrayList<>();
+    private static ArrayList<PluginObject> listPlugins = new ArrayList<>();
     private static ArrayList<Map<String, Object>> notificationItems = new ArrayList<>();
 //    private static List<Event> list = Collections.synchronizedList(new ArrayList<>());
     private static final ArrayList<ArrayList<Event>> hoursArrayList = new ArrayList<>();
@@ -41,37 +41,38 @@ public class TerminalGridDemo
 
         list = textFileSecond.getEntryList();
 
-        pluginsHashMap.put("title", "Sunday");
-        pluginsHashMap.put("startDate", LocalDate.parse("2023-10-25"));
-        pluginsHashMap.put("repeat", 7);
+//        pluginsHashMap.put("title", "Sunday");
+//        pluginsHashMap.put("startDate", LocalDate.parse("2023-10-25"));
+//        pluginsHashMap.put("repeat", 7);
+//
+//        listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
 
-        listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
-
-        pluginsHashMap = new HashMap<>();
-        pluginsHashMap.put("title", "Monday");
-        pluginsHashMap.put("startDate", LocalDate.parse("2023-10-26"));
-        pluginsHashMap.put("repeat", 7);
-
-        listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
+//        pluginsHashMap = new HashMap<>();
+//        pluginsHashMap.put("title", "Monday");
+//        pluginsHashMap.put("startDate", LocalDate.parse("2023-10-26"));
+//        pluginsHashMap.put("repeat", 7);
+//
+//        listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
 
 
         /*********/
 
 
-        for(Event event : list){
-            pluginsHashMap = new HashMap<>();
-            pluginsHashMap.put("event", event.getEvent());
-            pluginsHashMap.put("startDate", event.getDate());
-            pluginsHashMap.put("startTime", event.getTime());
+//        for(Event event : list){
+//            pluginsHashMap = new HashMap<>();
+//            pluginsHashMap.put("event", event.getEvent());
+//            pluginsHashMap.put("startDate", event.getDate());
+//            pluginsHashMap.put("startTime", event.getTime());
+//
+//            notificationItems.add(pluginsHashMap);
+//
+//        }
 
-            notificationItems.add(pluginsHashMap);
 
-        }
 
         listPlugins.add(new PluginObject("edu.curtin.calplugins.Notify", "Holiday"));
 
 
-        /*********/
 
 
         try {
@@ -81,18 +82,27 @@ public class TerminalGridDemo
         }
 
         MyParser parser = new MyParser(new StringReader(input));
-        Map<String, String> parserHashMap;
+
+        Map<String, Object> outputMap;
+        Map<String, ArrayList<Map<String, String>>> plugin = new HashMap<String, ArrayList<Map<String, String>>>();
+        ArrayList<Map<String, ArrayList<Map<String, String>>>> plugins;
+
 
         try {
-            parser.EventList();
+            outputMap = parser.EventList();
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
 
-//        System.out.printf("%s %n", parserHashMap);
+        plugins = (ArrayList<Map<String, ArrayList<Map<String, String>>>>)outputMap.get("plugins");
 
 
-//        new TerminalGridDemo().run();
+
+        /*********/
+
+
+
+        new TerminalGridDemo().run(plugins);
 
 
 
@@ -158,20 +168,20 @@ public class TerminalGridDemo
     public Object getInfo(){
         return info;
     }
-    public void run(){
-        for(PluginObject pluginObject : listPlugins){
-            try{
-                Class<?> pluginClass = Class.forName(pluginObject.getPluginName());
-                AppPlugin appPlugin = (AppPlugin) pluginClass.getConstructor().newInstance();
-
-                info = pluginObject.getObject();
-
-                ApiImpl apiImpl = new ApiImpl(this);
-                appPlugin.startPlugin(apiImpl);
-            }
-            catch(ReflectiveOperationException | ClassCastException e){
-                System.out.printf("%s: %s %n", e.getClass().getName(), e.getMessage());
-            }
+    public void run(ArrayList<Map<String, ArrayList<Map<String, String>>>> plugins){
+        for(Map<String, ArrayList<Map<String, String>>> pluginObject : plugins){
+//            try{
+//                Class<?> pluginClass = Class.forName(pluginObject.get());
+//                AppPlugin appPlugin = (AppPlugin) pluginClass.getConstructor().newInstance();
+//
+//                info = pluginObject.getObject();
+//
+//                ApiImpl apiImpl = new ApiImpl(this);
+//                appPlugin.startPlugin(apiImpl);
+//            }
+//            catch(ReflectiveOperationException | ClassCastException e){
+//                System.out.printf("%s: %s %n", e.getClass().getName(), e.getMessage());
+//            }
 
         }
 

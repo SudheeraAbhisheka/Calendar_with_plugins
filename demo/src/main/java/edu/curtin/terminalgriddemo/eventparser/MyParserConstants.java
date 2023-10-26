@@ -15,27 +15,29 @@ public interface MyParserConstants {
   /** RegularExpression Id. */
   int EVENT = 2;
   /** RegularExpression Id. */
-  int PLUGIN = 3;
+  int ALL_DAY = 3;
   /** RegularExpression Id. */
-  int SCRIPT = 4;
+  int PLUGIN = 4;
   /** RegularExpression Id. */
-  int TIME = 5;
+  int SCRIPT = 5;
   /** RegularExpression Id. */
-  int NUMBER = 6;
+  int TIME = 6;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 7;
+  int NUMBER = 7;
   /** RegularExpression Id. */
-  int TEXT = 8;
+  int STRING_LITERAL = 8;
   /** RegularExpression Id. */
-  int LBRACE = 9;
+  int TEXT = 9;
   /** RegularExpression Id. */
-  int RBRACE = 10;
+  int LBRACE = 10;
   /** RegularExpression Id. */
-  int COLON = 11;
+  int RBRACE = 11;
   /** RegularExpression Id. */
-  int COMMA = 12;
+  int COLON = 12;
   /** RegularExpression Id. */
-  int SPACES = 13;
+  int COMMA = 13;
+  /** RegularExpression Id. */
+  int SPACES = 14;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -45,6 +47,7 @@ public interface MyParserConstants {
     "<EOF>",
     "<DATE>",
     "\"event\"",
+    "\"all-day\"",
     "\"plugin\"",
     "\"script\"",
     "<TIME>",
