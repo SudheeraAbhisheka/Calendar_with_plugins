@@ -7,8 +7,10 @@ options {
 PARSER_BEGIN(MyParser)
 
 package edu.curtin.terminalgriddemo.eventparser;
-
-
+import edu.curtin.terminalgriddemo.PluginObject;
+import edu.curtin.terminalgriddemo.Event;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class MyParser {
@@ -46,16 +48,15 @@ public Map<String, Object> EventList() :
 {
  Map<String, Object> outputMap = new HashMap<String, Object>();
 
- Map<String, String> event = new HashMap<String, String>();
- ArrayList<Map<String, String>> events = new ArrayList<Map<String, String>>();
+ Event event = null;
+ ArrayList<Event> events = new ArrayList<Event>();
 
-  Map<String, ArrayList<Map<String, String>>> plugin = new HashMap<String, ArrayList<Map<String, String>>>();
- ArrayList<Map<String, ArrayList<Map<String, String>>>> plugins = new ArrayList<Map<String, ArrayList<Map<String, String>>>>();
-
+PluginObject plugin = null;
+ ArrayList<PluginObject> plugins = new ArrayList<PluginObject>();
 
 }
 {
- (event = Event() {events.add(event);}| plugin = Plugin() {plugins.add(plugin);} | Script() | <SPACES>)*
+ (event = Event() {events.add(event); }| plugin = Plugin() {plugins.add(plugin);} | Script() | <SPACES>)*
 
 {
     outputMap.put("events", events);
@@ -66,9 +67,8 @@ public Map<String, Object> EventList() :
 
 }
 
-private Map<String, String> Event() :
+private Event Event() :
 {
-    Map<String, String> eventMap = new HashMap<String, String>();
    String date = null;
    String time = null;
    String duration = null;
@@ -76,55 +76,47 @@ private Map<String, String> Event() :
 }
 {
 
-    "event" <SPACES> <DATE>{ date = token.image; } <SPACES> (<TIME> { time = token.image; } <SPACES> <NUMBER>{ duration = token.image; } <SPACES> <STRING_LITERAL>{ title = token.image; }
-             {
-                 eventMap.put("date", date);
-                 eventMap.put("time", time);
-                 eventMap.put("duration", duration);
-                 eventMap.put("title", title);
+    "event" <SPACES> <DATE>{ date = token.image; } <SPACES> (<TIME> { time = token.image; } <SPACES> <NUMBER>{ duration = token.image; } <SPACES> <STRING_LITERAL>{ title = token.image.substring(1, token.image.length() - 1); }
+    {
 
-                 return eventMap;
-         }|
+        return new Event(LocalDate.parse(date), LocalTime.parse(time), Integer.parseInt(duration), title);
+}|
 
-    <ALL_DAY> <SPACES> <STRING_LITERAL>{ title = token.image; } {
-            eventMap.put("date", date);
-                 eventMap.put("title", title);
-
-                 return eventMap;
+    <ALL_DAY> <SPACES> <STRING_LITERAL>{ title = token.image.substring(1, token.image.length() - 1); }
+    {
+                 return new Event(LocalDate.parse(date), title);
 })
 
 }
 
-private Map<String, ArrayList<Map<String, String>>> Plugin() :
+private PluginObject Plugin() :
 {
   String pluginName = null;
-  Map<String, ArrayList<Map<String, String>>> plugin = new HashMap<String, ArrayList<Map<String, String>>>();
-  ArrayList<Map<String, String>> properties = new ArrayList<Map<String, String>>();
-  Map<String, String> property = new HashMap<String, String>();
+  String[] propertyArray;
+  Map<String, String> properties = new HashMap<String, String>();
 }
 {
-    "plugin" <SPACES> <TEXT> {pluginName = token.image;} <SPACES> <LBRACE> <SPACES> (property = Property() { properties.add(property); })* <RBRACE>
+    "plugin" <SPACES> <TEXT> {pluginName = token.image;} <SPACES> <LBRACE> <SPACES> (propertyArray = Property() { properties.put(propertyArray[0], propertyArray[1]); })* <RBRACE>
 
   {
-    plugin.put(pluginName, properties);
-
-    return plugin;
+    return new PluginObject(pluginName, properties);
   }
 }
 
-private Map<String, String> Property() :
+private String[] Property() :
 {
   String key = null;
   String value = null;
+  String[] propertyArray = new String[2];
 }
 {
- <TEXT>{ key = token.image; }  <COLON> <SPACES ><STRING_LITERAL>{ value = token.image; }( <COMMA> )?(<SPACES>)?
+ <TEXT>{ key = token.image; }  <COLON> <SPACES ><STRING_LITERAL>{ value = token.image.substring(1, token.image.length() - 1); }( <COMMA> )?(<SPACES>)?
 
   {
-    Map<String, String> property = new HashMap<String, String>();
-    property.put(key, value);
+    propertyArray[0] = key;
+    propertyArray[1] = value;
 
-    return property;
+    return propertyArray;
   }
 }
 

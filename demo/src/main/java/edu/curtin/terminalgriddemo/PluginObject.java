@@ -9,19 +9,11 @@ public class PluginObject {
         this.object = object;
     }
 
-    public String getPluginName() {
-        return pluginName;
-    }
-
-    public void setPluginName(String pluginName) {
-        this.pluginName = pluginName;
-    }
-
     public Object getObject() {
         return object;
     }
 
-    public void setObject(Object object) {
-        this.object = object;
+    public String getPluginName() {
+        return pluginName;
     }
 }

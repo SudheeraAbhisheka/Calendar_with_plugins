@@ -13,10 +13,12 @@ public class Notify implements AppPlugin{
     @Override
     public void startPlugin(AppPluginAPI api) {
         ArrayList<Map<String, Object>> notificationItems;
+        Map<String, String> properties;
         String title;
 
+        properties = (Map<String, String>) api.getInfo();
+        title = properties.get("text");
 
-        title = api.getInfo().toString();
         notificationItems = api.getEvents();
         ExecutorService executor = Executors.newCachedThreadPool();
 
@@ -45,9 +47,6 @@ public class Notify implements AppPlugin{
         while(true){
             try {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-
-                            System.out.printf("%s %s - %s %n", event, LocalTime.now().format(formatter), startTime.format(formatter));
 
                 if(LocalDate.now().equals(startDate)){
                     if(LocalTime.now().format(formatter).equals(startTime.format(formatter))){

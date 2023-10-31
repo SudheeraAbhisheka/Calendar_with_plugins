@@ -4,11 +4,15 @@ import edu.curtin.terminalgrid.TerminalGrid;
 import edu.curtin.terminalgriddemo.eventparser.MyParser;
 import edu.curtin.terminalgriddemo.eventparser.ParseException;
 
-import java.io.IOException;
-import java.io.StringReader;
+import java.io.*;
+import java.nio.charset.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.*;
 
 /**
@@ -18,74 +22,63 @@ import java.util.*;
 public class TerminalGridDemo
 {
     private static LocalDate firstDisplayDay = LocalDate.now();
-    private static List<Event> list = new Stack<>();
-    private static ArrayList<PluginObject> listPlugins = new ArrayList<>();
+    private static ArrayList<Event> events = new ArrayList<>();
     private static ArrayList<Map<String, Object>> notificationItems = new ArrayList<>();
-//    private static List<Event> list = Collections.synchronizedList(new ArrayList<>());
     private static final ArrayList<ArrayList<Event>> hoursArrayList = new ArrayList<>();
-    private static final Object mutex = new Object();
-
     private static final ArrayList<Event> allDayEvents = new ArrayList<>();
     private static final Map<LocalDate, Integer> lastHourOfEachDay = new HashMap<>();
     private static final Map<LocalDate, Integer> firstHourOfEachDay = new HashMap<>();
+    private static ResourceBundle bundle;
+
 
     public static void main(String[] args)
     {
         final int hoursPerDay = 24;
-        Map<String, Object> pluginsHashMap = new HashMap<>();
-        String input;
-
+        String fileName;
+        Map<String, Object> pluginsHashMap;
+        String input = "";
+        MyParser parser;
         String command = "";
+        Map<String, Object> outputMap;
+        ArrayList<PluginObject> plugins;
+        Locale locale;
+        Charset charset = null;
 
-        InputFileSecond textFileSecond = new InputFileSecond("input.txt");
+        /*Parsing the file*/
+        fileName = args[0];
 
-        list = textFileSecond.getEntryList();
+        String[] splitFileName = fileName.split("\\.");
 
-//        pluginsHashMap.put("title", "Sunday");
-//        pluginsHashMap.put("startDate", LocalDate.parse("2023-10-25"));
-//        pluginsHashMap.put("repeat", 7);
-//
-//        listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
-
-//        pluginsHashMap = new HashMap<>();
-//        pluginsHashMap.put("title", "Monday");
-//        pluginsHashMap.put("startDate", LocalDate.parse("2023-10-26"));
-//        pluginsHashMap.put("repeat", 7);
-//
-//        listPlugins.add(new PluginObject("edu.curtin.calplugins.Repeat", pluginsHashMap));
-
-
-        /*********/
-
-
-//        for(Event event : list){
-//            pluginsHashMap = new HashMap<>();
-//            pluginsHashMap.put("event", event.getEvent());
-//            pluginsHashMap.put("startDate", event.getDate());
-//            pluginsHashMap.put("startTime", event.getTime());
-//
-//            notificationItems.add(pluginsHashMap);
-//
-//        }
-
-
-
-        listPlugins.add(new PluginObject("edu.curtin.calplugins.Notify", "Holiday"));
-
-
-
-
-        try {
-            input = Files.readString(Path.of("second.txt"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(splitFileName.length == 3){
+            if(splitFileName[1].equals("utf8")){
+                charset = StandardCharsets.UTF_8;
+            }
+            else if(splitFileName[1].equals("utf16")){
+                charset = StandardCharsets.UTF_16;
+            }
+            else if(splitFileName[1].equals("utf32")){
+                charset = Charset.forName("UTF-32");
+            }
+        }
+        else{
+            charset = StandardCharsets.UTF_8;
         }
 
-        MyParser parser = new MyParser(new StringReader(input));
 
-        Map<String, Object> outputMap;
-        Map<String, ArrayList<Map<String, String>>> plugin = new HashMap<String, ArrayList<Map<String, String>>>();
-        ArrayList<Map<String, ArrayList<Map<String, String>>>> plugins;
+        try (InputStreamReader isr = new InputStreamReader(new FileInputStream(fileName), charset);
+             BufferedReader br = new BufferedReader(isr)) {
+            StringBuilder text = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                text.append(line).append("\n");
+            }
+            input = text.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        parser = new MyParser(new StringReader(input));
+
 
 
         try {
@@ -94,94 +87,100 @@ public class TerminalGridDemo
             throw new RuntimeException(e);
         }
 
-        plugins = (ArrayList<Map<String, ArrayList<Map<String, String>>>>)outputMap.get("plugins");
+        plugins = (ArrayList<PluginObject> )outputMap.get("plugins");
+        events = (ArrayList<Event>)outputMap.get("events");
 
+        for(Event event : events){
+            pluginsHashMap = new HashMap<>();
+            pluginsHashMap.put("event", event.getEvent());
+            pluginsHashMap.put("startDate", event.getDate());
+            pluginsHashMap.put("startTime", event.getTime());
 
+            notificationItems.add(pluginsHashMap);
 
-        /*********/
+        }
 
+        /*Locale selection*/
+        System.out.printf("%s %n", "Enter the Locale (Keep this as blank for the default locale)");
 
+        Scanner scanner = new Scanner(System.in);
+        String inputLocale = scanner.nextLine();
+
+        if(inputLocale.isBlank()){
+            bundle = ResourceBundle.getBundle("bundle");
+        }else{
+            bundle = ResourceBundle.getBundle("bundle", Locale.forLanguageTag(inputLocale));
+        }
 
         new TerminalGridDemo().run(plugins);
 
+        for(Event event : events){
+             if(event.isItAllday()){
+                 allDayEvents.add(event);
+             }
+         }
+
+         for(int i = 0; i < hoursPerDay; i++){
+             ArrayList<Event> hourX = new ArrayList<>();
+
+             for(Event event : events){
+                 if(!event.isItAllday()){
+                     if(event.getHour() == i){
+                         hourX.add(event);
+
+                         lastHourOfEachDay.put(event.getDate(), event.getHour());
+
+                         if(!firstHourOfEachDay.containsKey(event.getDate())){
+                             firstHourOfEachDay.put(event.getDate(), event.getHour());
+                         }
+                     }
+                 }
+             }
 
 
-//        for(Event event : list){
-//             if(event.isItAllday()){
-//                 allDayEvents.add(event);
-//             }
-//         }
-//
-//        //         executor.shutdown();
-//
-//         for(int i = 0; i < hoursPerDay; i++){
-//             ArrayList<Event> hourX = new ArrayList<>();
-//
-//             synchronized (mutex){
-//
-//             }
-//
-//             for(Event event : list){
-//                 if(!event.isItAllday()){
-//                     if(event.getHour() == i){
-//                         hourX.add(event);
-//
-//                         lastHourOfEachDay.put(event.getDate(), event.getHour());
-//
-//                         if(!firstHourOfEachDay.containsKey(event.getDate())){
-//                             firstHourOfEachDay.put(event.getDate(), event.getHour());
-//                         }
-//                     }
-//                 }
-//             }
-//
-//
-//
-//             hoursArrayList.add(hourX);
-//         }
-//
-//         oneWeek(command);
-//         try(Scanner sc = new Scanner(System.in)){
-//             while(!command.equals("quit")){
-//                 command = sc.nextLine();
-//                 oneWeek(command);
-//             }
-//         }catch(IllegalArgumentException e){
-//             System.out.println("Invalid move");
-//         }
+
+             hoursArrayList.add(hourX);
+         }
+
+         oneWeek(command);
+         try(Scanner sc = new Scanner(System.in)){
+             while(!command.equals("quit")){
+                 command = sc.nextLine();
+                 oneWeek(command);
+             }
+         }catch(IllegalArgumentException e){
+             System.out.println("Invalid move");
+         }
     }
 
     private Object info = "";
     public void setNewCalendarEvent(LocalDate date, String event){
-        synchronized (mutex){
-
-        }
-
-        list.add(new Event(date, event));
+        events.add(new Event(date, event));
 
     }
 
     public List<Event> getEventList(){
-        return list;
+        return events;
     }
 
     public Object getInfo(){
         return info;
     }
-    public void run(ArrayList<Map<String, ArrayList<Map<String, String>>>> plugins){
-        for(Map<String, ArrayList<Map<String, String>>> pluginObject : plugins){
-//            try{
-//                Class<?> pluginClass = Class.forName(pluginObject.get());
-//                AppPlugin appPlugin = (AppPlugin) pluginClass.getConstructor().newInstance();
-//
-//                info = pluginObject.getObject();
-//
-//                ApiImpl apiImpl = new ApiImpl(this);
-//                appPlugin.startPlugin(apiImpl);
-//            }
-//            catch(ReflectiveOperationException | ClassCastException e){
-//                System.out.printf("%s: %s %n", e.getClass().getName(), e.getMessage());
-//            }
+    public void run(ArrayList<PluginObject> plugins){
+        for(PluginObject pluginObject : plugins){
+
+            try{
+                Class<?> pluginClass = Class.forName(pluginObject.getPluginName());
+                AppPlugin appPlugin = (AppPlugin) pluginClass.getConstructor().newInstance();
+
+                info = pluginObject.getObject();
+
+                ApiImpl apiImpl = new ApiImpl(this);
+                appPlugin.startPlugin(apiImpl);
+            }
+            catch(ReflectiveOperationException | ClassCastException e){
+                System.out.printf("%s: %s %n", e.getClass().getName(), e.getMessage());
+            }
 
         }
 
@@ -306,10 +305,11 @@ public class TerminalGridDemo
             String[] rowHeadings = new String[hoursPerDay+allDayEventRow];
 
             for(int i = 0; i < daysPerWeek; i++){
-                colHeadings[i] = ""+firstDisplayDay.plusDays(i)+"\n"+firstDisplayDay.plusDays(i).getDayOfWeek();
+                String dayOfWeek = firstDisplayDay.plusDays(i).getDayOfWeek().toString();
+                colHeadings[i] = ""+firstDisplayDay.plusDays(i)+"\n"+bundle.getString(dayOfWeek);
             }
 
-            rowHeadings[0] = "Add-day events";
+            rowHeadings[0] = bundle.getString("ALL-DAY EVENTS");
 
             for(int i = 0; i < hoursPerDay; i++){
                 rowHeadings[i+allDayEventRow] = "Hour "+(i+firstHour);

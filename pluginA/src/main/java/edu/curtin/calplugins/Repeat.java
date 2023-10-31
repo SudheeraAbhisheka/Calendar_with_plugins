@@ -1,31 +1,30 @@
 package edu.curtin.calplugins;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Map;
 
-public class Repeat implements AppPlugin{
+public class Repeat implements AppPlugin {
     @Override
     public void startPlugin(AppPluginAPI api) {
-        Map<String, Object> repeatHashMap;
         LocalDate startDate;
         String title;
         int repeat;
         LocalDate nextDay;
         LocalDate afterOneYear;
 
-        repeatHashMap = (Map<String, Object>) api.getInfo();
+        Map<String, String> properties = (Map<String, String>) api.getInfo();
 
-        startDate = (LocalDate) repeatHashMap.get("startDate");
-        title = repeatHashMap.get("title").toString();
-        repeat = Integer.parseInt(repeatHashMap.get("repeat").toString());
+        title = properties.get("title");
+        startDate = LocalDate.parse(properties.get("startDate"));
+        repeat = Integer.parseInt(properties.get("repeat"));
 
         afterOneYear = startDate.plusYears(1);
 
         api.newCalendarEvent(startDate, title);
         nextDay = startDate.plusDays(repeat);
 
-        // nextDay.isBefore(afterOneYear)
-        while(nextDay.isBefore(afterOneYear)){
+        while (nextDay.isBefore(afterOneYear)) {
             api.newCalendarEvent(nextDay, title);
             nextDay = nextDay.plusDays(repeat);
         }
