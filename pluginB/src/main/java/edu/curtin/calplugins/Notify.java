@@ -16,7 +16,7 @@ public class Notify implements AppPlugin{
         Map<String, String> properties;
         String title;
 
-        properties = (Map<String, String>) api.getInfo();
+        properties = api.getInfo();
         title = properties.get("text");
 
         notificationItems = api.getEvents();

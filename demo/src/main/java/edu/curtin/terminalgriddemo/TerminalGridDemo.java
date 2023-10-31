@@ -2,17 +2,11 @@ package edu.curtin.terminalgriddemo;
 import edu.curtin.calplugins.AppPlugin;
 import edu.curtin.terminalgrid.TerminalGrid;
 import edu.curtin.terminalgriddemo.eventparser.MyParser;
-import edu.curtin.terminalgriddemo.eventparser.ParseException;
 
 import java.io.*;
 import java.nio.charset.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
+import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -29,7 +23,7 @@ public class TerminalGridDemo
     private static final Map<LocalDate, Integer> lastHourOfEachDay = new HashMap<>();
     private static final Map<LocalDate, Integer> firstHourOfEachDay = new HashMap<>();
     private static ResourceBundle bundle;
-
+    private Map<String, String> info = null;
 
     public static void main(String[] args)
     {
@@ -39,8 +33,8 @@ public class TerminalGridDemo
         String input = "";
         MyParser parser;
         String command = "";
-        Map<String, Object> outputMap;
-        ArrayList<PluginObject> plugins;
+        Map<String, ArrayList<Object>> outputMap = null;
+        ArrayList<PluginObject> plugins = new ArrayList<>();
         Locale locale;
         Charset charset = null;
 
@@ -83,12 +77,20 @@ public class TerminalGridDemo
 
         try {
             outputMap = parser.EventList();
-        } catch (ParseException e) {
+        } catch (edu.curtin.terminalgriddemo.eventparser.ParseException e) {
             throw new RuntimeException(e);
         }
 
-        plugins = (ArrayList<PluginObject> )outputMap.get("plugins");
-        events = (ArrayList<Event>)outputMap.get("events");
+
+        ArrayList<Object> pluginsT = outputMap.get("plugins");
+        ArrayList<Object> eventsT = outputMap.get("events");
+
+        for(Object t : pluginsT ){
+            plugins.add((PluginObject) t);
+        }
+        for(Object t : eventsT){
+            events.add((Event) t);
+        }
 
         for(Event event : events){
             pluginsHashMap = new HashMap<>();
@@ -102,6 +104,7 @@ public class TerminalGridDemo
 
         /*Locale selection*/
         System.out.printf("%s %n", "Enter the Locale (Keep this as blank for the default locale)");
+        System.out.printf("%s %n", "(Available locales: English (Default), Sinhalese(si-LK), Dutch(de-DE))");
 
         Scanner scanner = new Scanner(System.in);
         String inputLocale = scanner.nextLine();
@@ -153,9 +156,15 @@ public class TerminalGridDemo
          }
     }
 
-    private Object info = "";
     public void setNewCalendarEvent(LocalDate date, String event){
         events.add(new Event(date, event));
+
+
+    }
+
+    public void setNewCalendarEvent(LocalDate date, LocalTime time, int duration, String event){
+        events.add(new Event(date, time, duration, event));
+
 
     }
 
@@ -163,7 +172,7 @@ public class TerminalGridDemo
         return events;
     }
 
-    public Object getInfo(){
+    public Map<String, String> getInfo(){
         return info;
     }
     public void run(ArrayList<PluginObject> plugins){

@@ -1,15 +1,17 @@
 package edu.curtin.terminalgriddemo;
 
+import java.util.Map;
+
 public class PluginObject {
     private String pluginName;
-    private Object object;
+    private Map<String, String> object;
 
-    public PluginObject(String pluginName, Object object) {
+    public PluginObject(String pluginName, Map<String, String> object) {
         this.pluginName = pluginName;
         this.object = object;
     }
 
-    public Object getObject() {
+    public Map<String, String> getObject() {
         return object;
     }
 

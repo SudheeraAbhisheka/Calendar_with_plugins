@@ -10,7 +10,7 @@ plugin edu.curtin.calplugins.Notify
 }
 event 2023-12-25
     all-day "Christmas Day"
-plugin edu.curtin.calplugins.Repeat { title: "Sunday", startDate: "2023-10-28", repeat: "7" }
+plugin edu.curtin.calplugins.Repeat { title: "Saturday", startDate: "2023-10-28", repeat: "7" }
 
 script "
 # I'm a Python script!

@@ -17,18 +17,17 @@ public class MyParser implements MyParserConstants {
             }
     }
 
-  final public Map<String, Object> EventList() throws ParseException {
- Map<String, Object> outputMap = new HashMap<String, Object>();
+  final public Map<String, ArrayList<Object>> EventList() throws ParseException {
+ Map<String, ArrayList<Object>> outputMap = new HashMap<String, ArrayList<Object>>();
 
  Event event = null;
- ArrayList<Event> events = new ArrayList<Event>();
+ ArrayList<Object> events = new ArrayList<Object>();
 
 PluginObject plugin = null;
- ArrayList<PluginObject> plugins = new ArrayList<PluginObject>();
+ ArrayList<Object> plugins = new ArrayList<Object>();
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
-      case 0:
       case EVENT:
       case PLUGIN:
       case SCRIPT:
@@ -42,20 +41,17 @@ PluginObject plugin = null;
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case EVENT:
         event = Event();
-                   events.add(event);
+                   events.add((Object)event);
         break;
       case PLUGIN:
         plugin = Plugin();
-                                                            plugins.add(plugin);
+                                                                    plugins.add((Object)plugin);
         break;
       case SCRIPT:
         Script();
         break;
       case SPACES:
         jj_consume_token(SPACES);
-        break;
-      case 0:
-        jj_consume_token(0);
         break;
       default:
         jj_la1[1] = jj_gen;
@@ -190,7 +186,7 @@ PluginObject plugin = null;
       jj_la1_init_0();
    }
    private static void jj_la1_init_0() {
-      jj_la1_0 = new int[] {0x4035,0x4035,0x48,0x200,0x2000,0x4000,};
+      jj_la1_0 = new int[] {0x4034,0x4034,0x48,0x200,0x2000,0x4000,};
    }
 
   /** Constructor with InputStream. */

@@ -44,19 +44,19 @@ TOKEN: {
 | < SPACES : ("\r\n" | "\n" | " ")*>
 }
 
-public Map<String, Object> EventList() :
+public Map<String, ArrayList<Object>> EventList() :
 {
- Map<String, Object> outputMap = new HashMap<String, Object>();
+ Map<String, ArrayList<Object>> outputMap = new HashMap<String, ArrayList<Object>>();
 
  Event event = null;
- ArrayList<Event> events = new ArrayList<Event>();
+ ArrayList<Object> events = new ArrayList<Object>();
 
 PluginObject plugin = null;
- ArrayList<PluginObject> plugins = new ArrayList<PluginObject>();
+ ArrayList<Object> plugins = new ArrayList<Object>();
 
 }
 {
- (event = Event() {events.add(event); }| plugin = Plugin() {plugins.add(plugin);} | Script() | <SPACES>)*
+ (event = Event() {events.add((Object)event); }| plugin = Plugin() {plugins.add((Object)plugin);} | Script() | <SPACES>)*
 
 {
     outputMap.put("events", events);
